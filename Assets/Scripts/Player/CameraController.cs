@@ -18,8 +18,8 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+       Cursor.lockState = CursorLockMode.Locked;
+       Cursor.visible = false;
     }
 
     private void LateUpdate()
@@ -31,6 +31,9 @@ public class CameraController : MonoBehaviour
 
     private void HandleRotation(Vector2 lookInput)
     {
+        if (Cursor.lockState != CursorLockMode.Locked)
+            return;
+
         // Yaw (Horizontal rotation) is applied to the root physics object
         player.transform.Rotate(Vector3.up * (lookInput.x * mouseSensitivity));
 
