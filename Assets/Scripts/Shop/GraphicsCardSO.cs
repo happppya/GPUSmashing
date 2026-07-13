@@ -14,6 +14,7 @@ public struct IntRange
 [CreateAssetMenu(fileName = "NewCard", menuName = "GraphicsCards/GraphicsCard")]
 public class GraphicsCardSO : ScriptableObject
 {
+    public GameObject Prefab;
     public string DisplayName;
     public string Description;
     public float Price;
