@@ -29,4 +29,19 @@ public class UpgradeSO : ScriptableObject
     public float PriceIncrement;
     public int MaxLevel;
     public UpgradeModifier[] UpgradeModifiers;
+
+    [HideInInspector] public float CurrentPrice;
+    [HideInInspector] public int CurrentLevel = 1;
+
+    public void UpdateOnBought()
+    {
+        CurrentPrice += PriceIncrement;
+        CurrentLevel++;
+    }
+
+    private void OnEnable()
+    {
+        CurrentPrice = BasePrice;
+    }
+
 }
