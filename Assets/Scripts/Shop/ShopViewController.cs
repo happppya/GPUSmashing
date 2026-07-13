@@ -40,31 +40,37 @@ public class ShopViewController : MonoBehaviour
         unselectedText.color = Color.white;
     }
 
+    private void GPUButtonPressed()
+    {
+        GPUScrollView.SetActive(true);
+        UpgradeScrollView.SetActive(false);
+
+        ToggleMenuButtons(GPUButton, GPUText, UpgradeButton, UpgradeText);
+    }
+
+    private void UpgradeButtonPressed()
+    {
+        UpgradeScrollView.SetActive(true);
+        GPUScrollView.SetActive(false);
+
+        ToggleMenuButtons(UpgradeButton, UpgradeText, GPUButton, GPUText);
+    }
+
     private void Start()
     {
         GPUScrollView.SetActive(false);
         UpgradeScrollView.SetActive(false);
 
-        GPUButton.onClick.AddListener(() =>
-        {
-            GPUScrollView.SetActive(true);
-            UpgradeScrollView.SetActive(false);
-
-            ToggleMenuButtons(GPUButton, GPUText, UpgradeButton, UpgradeText);
-        });
-
-        UpgradeButton.onClick.AddListener(() =>
-        {
-            UpgradeScrollView.SetActive(true);
-            GPUScrollView.SetActive(false);
-
-            ToggleMenuButtons(UpgradeButton, UpgradeText, GPUButton, GPUText);
-        });
+        GPUButton.onClick.AddListener(GPUButtonPressed);
+        UpgradeButton.onClick.AddListener(UpgradeButtonPressed);
 
         visiblePosition = new Vector2(0f, shopWindow.anchoredPosition.y);
         hiddenPosition = new Vector2(shopWindow.rect.width, shopWindow.anchoredPosition.y);
 
         shopWindow.anchoredPosition = hiddenPosition;
+
+        // Start on the gpu screen
+        GPUButtonPressed();
     }
 
     private void Update()
