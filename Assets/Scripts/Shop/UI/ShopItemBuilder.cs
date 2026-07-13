@@ -38,6 +38,7 @@ public abstract class ShopItemBuilder : MonoBehaviour
     {
         buyButton.onClick.AddListener(BuyButtonPressed);
         CashManager.OnCashChanged += CashChanged;
+        CashChanged(CashManager.Instance.Cash);
     }
 
     void CashChanged(float cash)

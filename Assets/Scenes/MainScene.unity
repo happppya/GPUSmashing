@@ -317,6 +317,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31939663}
   m_CullTransparentMesh: 1
+--- !u!1 &90926307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 90926308}
+  m_Layer: 0
+  m_Name: GPUContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &90926308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90926307}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 794762660}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &102881562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,6 +1659,8 @@ MonoBehaviour:
   upgrades:
   - {fileID: 11400000, guid: ee5f0c453fdef0c468b8df06774d8de4, type: 2}
   - {fileID: 11400000, guid: 7d1f44c43dfd4c347818adf3f6cc243d, type: 2}
+  gpuDeliveryPoint: {fileID: 605397038}
+  gpuContainer: {fileID: 90926308}
   gpuItemPrefab: {fileID: 3257938396135600862, guid: babaa720cd1b3d243bd011071e6b435a, type: 3}
   upgradeItemPrefab: {fileID: 2818820413978439477, guid: 2a89e2ab3c61c2845acf1674972af57e, type: 3}
   GPUContent: {fileID: 558962833}
@@ -1783,6 +1816,37 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &605397037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 605397038}
+  m_Layer: 0
+  m_Name: GPUDeliveryPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &605397038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605397037}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.687, y: 0.08, z: 0.693}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 928582397}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &682193164
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,6 +2090,8 @@ Transform:
   m_Children:
   - {fileID: 1793484157}
   - {fileID: 1293986634}
+  - {fileID: 928582397}
+  - {fileID: 90926308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
@@ -2459,6 +2525,38 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &928582396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 928582397}
+  m_Layer: 0
+  m_Name: Points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &928582397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928582396}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.46728, y: 0.92941004, z: 0.91078997}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 605397038}
+  m_Father: {fileID: 794762660}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &973802990
 GameObject:
   m_ObjectHideFlags: 0
@@ -4808,6 +4906,7 @@ GameObject:
   - component: {fileID: 2037093846}
   - component: {fileID: 2037093845}
   - component: {fileID: 2037093850}
+  - component: {fileID: 2037093851}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -4823,7 +4922,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037093844}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -4953,6 +5052,28 @@ MonoBehaviour:
   maxWalkSpeed: 6.5
   acceleration: 3
   deceleration: 8
+--- !u!114 &2037093851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037093844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf128804d8146348a8f327747c50211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DampingController
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  maxPickupDistance: 10
+  minHoldDistance: 1.5
+  maxHoldDistance: 3
+  grabRadius: 0.5
+  pullForce: 9
+  throwMultiplier: 1.5
+  heldDamping: 10
 --- !u!1 &2044907849
 GameObject:
   m_ObjectHideFlags: 0

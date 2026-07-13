@@ -5,6 +5,9 @@ public class ShopItemController : MonoBehaviour
     [SerializeField] private GraphicsCardSO[] graphicsCards;
     [SerializeField] private UpgradeSO[] upgrades;
 
+    [SerializeField] private Transform gpuDeliveryPoint;
+    [SerializeField] private Transform gpuContainer;
+
     [SerializeField] private GPUItemBuilder gpuItemPrefab;
     [SerializeField] private UpgradeItemBuilder upgradeItemPrefab;
 
@@ -16,7 +19,7 @@ public class ShopItemController : MonoBehaviour
         foreach (GraphicsCardSO gpuDefinition in graphicsCards)
         {
             GPUItemBuilder gpuItem = Instantiate(gpuItemPrefab, GPUContent);
-            gpuItem.Initialize(gpuDefinition);
+            gpuItem.Initialize(gpuDefinition, gpuDeliveryPoint, gpuContainer);
         }
         foreach (UpgradeSO upgradeDefinition in upgrades)
         {

@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RTX3090
       objectReference: {fileID: 0}
+    - target: {fileID: -5223572404072050698, guid: fd04ae02afefcea419e54f3a987f0c36, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6332605753958078259, guid: fd04ae02afefcea419e54f3a987f0c36, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.11
@@ -127,4 +131,4 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
