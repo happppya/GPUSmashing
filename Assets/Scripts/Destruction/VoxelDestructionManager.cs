@@ -147,6 +147,12 @@ public class VoxelDestructionManager : MonoBehaviour
         // Convert the hit voxel to debris immediately
         MakeDebris(index, impactVelocity, false);
 
+        if (_gridData[index].IsAnchor)
+        {
+            ExplodeEverything();
+            return;
+        }
+
         _needsIslandDetection = true;
         CheckHealthThresholds();
     }
@@ -287,6 +293,8 @@ public class VoxelDestructionManager : MonoBehaviour
         // Disable the root's interactions
         Rigidbody mainRb = GetComponent<Rigidbody>();
         if (mainRb != null) mainRb.isKinematic = true;
+
+        Destroy(gameObject, DebrisLifetime);
     }
 
     private void OnDestroy()

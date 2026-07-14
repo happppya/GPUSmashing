@@ -14687,14 +14687,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructionManager
   AnchorObjects:
-  - {fileID: 97091695}
   - {fileID: 1828066443}
-  - {fileID: 503727752}
-  DebrisLifetime: 3
+  DebrisLifetime: 5
   ExplosionForce: 5
   ExplosionRadius: 2
-  DebrisRandomVelocity: 2
-  ExplosionRandomVelocity: 7
+  DebrisRandomVelocity: 1
+  ExplosionRandomVelocity: 4
   OnDamagedLight:
     m_PersistentCalls:
       m_Calls: []
@@ -20550,7 +20548,7 @@ GameObject:
   - component: {fileID: 1828066448}
   - component: {fileID: 1828066450}
   m_Layer: 7
-  m_Name: Anchor2
+  m_Name: AnchorMiddle
   m_TagString: VoxelAnchor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23891,7 +23889,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DampingController
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 64
   maxPickupDistance: 10
   minHoldDistance: 0.9
   maxHoldDistance: 2.5
