@@ -14538,7 +14538,7 @@ GameObject:
   - component: {fileID: 1250903038}
   - component: {fileID: 1250903044}
   - component: {fileID: 1250903045}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: RTX3090_Fractured
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14553,7 +14553,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1250903036}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -14686,11 +14686,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 062db0bb532136447aa45293b314d4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructionManager
-  VoxelRoot: {fileID: 1250903042}
   AnchorObjects:
   - {fileID: 97091695}
   - {fileID: 1828066443}
   - {fileID: 503727752}
+  DebrisLifetime: 3
+  ExplosionForce: 5
+  ExplosionRadius: 2
+  DebrisRandomVelocity: 2
+  ExplosionRandomVelocity: 7
+  OnDamagedLight:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamagedCritical:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExploded:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!43 &1270109778
 Mesh:
   m_ObjectHideFlags: 0
