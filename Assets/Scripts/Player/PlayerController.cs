@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rigidBody;
     private Vector2 moveInput;
-
     public Vector3 CurrentVelocity => rigidBody.linearVelocity;
 
     private void Awake()
@@ -30,7 +29,6 @@ public class PlayerController : MonoBehaviour
     {
         bool isMovingLeft = Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed;
         bool isMovingRight = Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed;
-        // Fixed the inverted arrow keys here
         bool isMovingUp = Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
         bool isMovingDown = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
 
@@ -51,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 velocityDifference = targetVelocity - currentHorizontalVelocity;
         Vector3 movementForce = velocityDifference * accelRate;
+
+        Debug.Log(movementForce);
         rigidBody.AddForce(movementForce, ForceMode.Acceleration);
     }
 }
