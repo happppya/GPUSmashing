@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour
         Vector3 velocityDifference = targetVelocity - currentHorizontalVelocity;
         Vector3 movementForce = velocityDifference * accelRate;
 
-        Debug.Log(movementForce);
         rigidBody.AddForce(movementForce, ForceMode.Acceleration);
     }
 }

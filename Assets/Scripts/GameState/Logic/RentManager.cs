@@ -13,16 +13,7 @@ public class RentManager : MonoBehaviour
     private float currentTime = 0.0f;
 
     [SerializeField]
-    private float[] rentValues =
-    {
-        1000.0f,
-        1200.0f,
-        2000.0f,
-        3000.0f,
-        6000.0f,
-        12000.0f,
-        25000.0f,
-    };
+    private float[] rentValues;
 
     [SerializeField]
     private int currentDayIndex = 0;
@@ -34,7 +25,8 @@ public class RentManager : MonoBehaviour
 
     public float GetNextRentValue()
     {
-        return rentValues[currentDayIndex + 1];
+        if (currentDayIndex >= rentValues.Length) return 0f;
+        return rentValues[currentDayIndex];
     }
 
     void Awake()
@@ -49,23 +41,23 @@ public class RentManager : MonoBehaviour
         currentTime += Time.deltaTime;
         if (currentTime > periodLength)
         {
-            if (currentDayIndex == rentValues.Length - 1)
+            currentTime = 0.0f;
+            AdvanceToNextPeriod();
+            if (currentDayIndex >= rentValues.Length)
             {
                 gameOver = true;
                 Time.timeScale = 0.0f;
                 OnGameOver?.Invoke();
                 Debug.Log("Game over");
             }
-            currentTime = 0.0f;
-            AdvanceToNextPeriod();
         }
     }
 
     private void AdvanceToNextPeriod()
     {
-        currentDayIndex++;
         CashManager.Instance.AddCash(-1.0f * rentValues[currentDayIndex]);
         OnPeriodAdvanced?.Invoke();
+        currentDayIndex++;
     }
 
 }

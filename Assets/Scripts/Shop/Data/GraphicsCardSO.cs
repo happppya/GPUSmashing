@@ -1,13 +1,14 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public struct IntRange
 {
     public int Min;
     public int Max;
-    public IntRange(int min, int max)
+    public int GetRandomValue()
     {
-        Min = min;
-        Max = max;
+        return UnityEngine.Random.Range(Min, Max);
     }
 }
 
@@ -22,7 +23,5 @@ public class GraphicsCardSO : ScriptableObject
     public float JackpotChance;
     public float SuperJackpotChance;
 
-    public IntRange NormalEarnings;
-    public IntRange JackpotEarnings;
-    public IntRange SuperJackpotEarnings;
+    public IntRange BaseEarnings;
 }

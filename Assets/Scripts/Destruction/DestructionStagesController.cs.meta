@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 22ff8f9ecd6842749bd3b32aa8532585
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - damagedEffect: {fileID: 3077343761403282166, guid: 2a994aa09ea731a49ac9b76b9af8757f, type: 3}
+  - flamesEffect: {fileID: 6535653018351876004, guid: 0d521e19c83766947a0fdfc33a1a4c29, type: 3}
+  - explosionEffect: {fileID: 5162910912013668194, guid: d797bda82db8a6647b9fc380dd1aaf1e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

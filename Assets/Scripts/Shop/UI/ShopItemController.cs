@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class ShopItemController : MonoBehaviour
 {
-    [SerializeField] private GraphicsCardSO[] graphicsCards;
-    [SerializeField] private UpgradeSO[] upgrades;
+    [SerializeField] private ShopDataRegistry registry;
 
     [SerializeField] private Transform gpuDeliveryPoint;
     [SerializeField] private Transform gpuContainer;
@@ -16,12 +15,12 @@ public class ShopItemController : MonoBehaviour
 
     void Start()
     {
-        foreach (GraphicsCardSO gpuDefinition in graphicsCards)
+        foreach (GraphicsCardSO gpuDefinition in registry.AllGraphicsCards)
         {
             GPUItemBuilder gpuItem = Instantiate(gpuItemPrefab, GPUContent);
             gpuItem.Initialize(gpuDefinition, gpuDeliveryPoint, gpuContainer);
         }
-        foreach (UpgradeSO upgradeDefinition in upgrades)
+        foreach (UpgradeSO upgradeDefinition in registry.AllUpgrades)
         {
             UpgradeItemBuilder upgradeItem = Instantiate(upgradeItemPrefab, UpgradeContent);
             upgradeItem.Initialize(upgradeDefinition);

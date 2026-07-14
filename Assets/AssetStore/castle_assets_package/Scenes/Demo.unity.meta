@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6365739f5699f56429c208b0aa23517c
+timeCreated: 1533807228
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 123650
+  packageName: CastlePack_3D enviroment
+  packageVersion: 1.0
+  assetPath: Assets/castle_assets_package/Scenes/Demo.unity
+  uploadId: 260246

@@ -8,7 +8,8 @@ public class UpgradeItemBuilder : ShopItemBuilder
     public void Initialize(UpgradeSO newDefinition)
     {
         upgradeDefinition = newDefinition;
-        base.Initialize(upgradeDefinition.DisplayName + " [1]", upgradeDefinition.Description, upgradeDefinition.BasePrice);
+        base.Initialize(upgradeDefinition.DisplayName + " [0]", upgradeDefinition.Description, upgradeDefinition.BasePrice);
+        UpdateDescription();
     }
 
     protected override bool CanBeBought()
@@ -16,6 +17,7 @@ public class UpgradeItemBuilder : ShopItemBuilder
         if (isMax) return false;
         return CashManager.Instance.CanSpendCash(upgradeDefinition.CurrentPrice);
     }
+
     protected override void BuyButtonPressed()
     {
         if (!CanBeBought()) return;
@@ -24,12 +26,37 @@ public class UpgradeItemBuilder : ShopItemBuilder
         base.SetCost(upgradeDefinition.CurrentPrice);
         base.SetName(upgradeDefinition.DisplayName + $" [{upgradeDefinition.CurrentLevel}]");
 
-        if (upgradeDefinition.CurrentLevel == upgradeDefinition.MaxLevel)
+        if (upgradeDefinition.CurrentLevel >= upgradeDefinition.MaxLevel)
         {
             base.SetCostRaw("MAX");
             isMax = true;
         }
 
+        UpgradeManager.Instance.RecalculateStatsOnUpgrade(upgradeDefinition);
         CashManager.Instance.AddCash(upgradeDefinition.CurrentPrice * -1.0f);
+
+        UpdateDescription();
+    }
+
+    private void UpdateDescription()
+    {
+        string newDescription = upgradeDefinition.Description;
+        foreach (UpgradeModifier modifier in upgradeDefinition.UpgradeModifiers)
+        {
+            if (modifier.Tag == null || modifier.Tag.Length == 0) continue;
+
+            float statValue = UpgradeManager.Instance.GetStat(modifier.UpgradeType);
+            string statFormatted = modifier.FormatType switch
+            {
+                StatFormatType.None => statValue.ToString(),
+                StatFormatType.Percentage => statValue.ToString("P"),
+                StatFormatType.Currency => statValue.ToString("C0"),
+                _ => throw new System.ArgumentException($"Invalid format type {modifier.FormatType}"),
+            };
+
+            newDescription = newDescription.Replace(modifier.Tag, statFormatted);
+        }
+
+        base.SetDescription(newDescription);
     }
 }

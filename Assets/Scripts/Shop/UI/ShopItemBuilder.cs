@@ -34,6 +34,11 @@ public abstract class ShopItemBuilder : MonoBehaviour
         nameLabel.text = newName;
     }
 
+    public void SetDescription(string description)
+    {
+        descriptionLabel.text = description;
+    }
+
     void Start()
     {
         buyButton.onClick.AddListener(BuyButtonPressed);

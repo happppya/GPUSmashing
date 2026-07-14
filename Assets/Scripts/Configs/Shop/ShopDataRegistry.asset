@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7434d10e9bdd5488c237f0cd65c745, type: 3}
+  m_Name: ShopDataRegistry
+  m_EditorClassIdentifier: Assembly-CSharp::ShopDataRegistry
+  AllGraphicsCards:
+  - {fileID: 11400000, guid: 074185f7f5a902144ae46d5123b8466d, type: 2}
+  AllUpgrades:
+  - {fileID: 11400000, guid: ee5f0c453fdef0c468b8df06774d8de4, type: 2}
+  - {fileID: 11400000, guid: 24c2be934f44b7a459f5a7007f46db8f, type: 2}
+  - {fileID: 11400000, guid: 7d1f44c43dfd4c347818adf3f6cc243d, type: 2}
+  - {fileID: 11400000, guid: 57b84d13799347e428c492523d4e0175, type: 2}

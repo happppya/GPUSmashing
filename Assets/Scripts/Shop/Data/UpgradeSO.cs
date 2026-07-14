@@ -14,8 +14,8 @@ public struct UpgradeModifier
 {
     public string Tag; // The tag that will be used to identify where in the description text to replace with
     public UpgradeType UpgradeType;
-    public float BaseValue;
     public float IncrementPerLevel;
+    public float MinValue;
     public float MaxValue;
     public StatFormatType FormatType;
 }
@@ -30,18 +30,20 @@ public class UpgradeSO : ScriptableObject
     public int MaxLevel;
     public UpgradeModifier[] UpgradeModifiers;
 
-    [HideInInspector] public float CurrentPrice;
-    [HideInInspector] public int CurrentLevel = 1;
+    [Header("Don't change from editor")]
+    public float CurrentPrice;
+    public int CurrentLevel = 0;
 
     public void UpdateOnBought()
     {
         CurrentPrice += PriceIncrement;
-        CurrentLevel++;
+        CurrentLevel += 1;
     }
 
     private void OnEnable()
     {
         CurrentPrice = BasePrice;
+        CurrentLevel = 0;
     }
 
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
@@ -8,24 +9,19 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody))]
 public class VoxelDestructionManager : MonoBehaviour
 {
-    [Header("Setup")]
-    [Tooltip("Drag the specific voxel GameObjects that act as unbreakable anchors.")]
-    public List<GameObject> AnchorObjects;
-
-    [Header("Debris Settings")]
-    [Tooltip("How many seconds before a detached voxel disappears?")]
-    public float DebrisLifetime = 3f;
+    
+    public List<GameObject> AnchorObjects; // Starting points of island algorithm. Will explode if one is destroyed
+    
+    public float DebrisLifetimeMin = 3f;
+    public float DebrisLifetimeMax = 5f;
     public float ExplosionForce = 5f;
     public float ExplosionRadius = 2f;
-    [Tooltip("Amount of random velocity applied to standard broken voxels.")]
     public float DebrisRandomVelocity = 2f;
-    [Tooltip("Amount of random velocity applied during the final 30% explosion.")]
     public float ExplosionRandomVelocity = 7f;
-
-    [Header("Damage Events")]
-    public UnityEvent OnDamagedLight;
-    public UnityEvent OnDamagedCritical;
-    public UnityEvent OnExploded;
+    
+    public event Action OnDamagedLight;
+    public event Action OnDamagedCritical;
+    public event Action OnExploded;
 
     private NativeArray<VoxelData> _gridData;
     private GameObject[] _voxelInstances;
@@ -57,6 +53,10 @@ public class VoxelDestructionManager : MonoBehaviour
         InitializeGrid();
     }
 
+    private float GetRandomDebrisLifetime()
+    {
+        return UnityEngine.Random.Range(DebrisLifetimeMin, DebrisLifetimeMax);
+    }
     private void InitializeGrid()
     {
         int childCount = transform.childCount;
@@ -125,7 +125,7 @@ public class VoxelDestructionManager : MonoBehaviour
         // Stop calculating if we are already dead
         if (_passedExplode) return;
 
-        if (collision.impulse.sqrMagnitude > 10f)
+        if (collision.impulse.sqrMagnitude > 4f)
         {
             Collider hitCollider = collision.GetContact(0).thisCollider;
 
@@ -220,7 +220,6 @@ public class VoxelDestructionManager : MonoBehaviour
         CheckHealthThresholds();
     }
 
-    // --- Debris & Destruction Logic ---
 
     private void MakeDebris(int index, Vector3 force, bool isExplosion)
     {
@@ -234,21 +233,21 @@ public class VoxelDestructionManager : MonoBehaviour
             rb.mass = 0.5f;
         }
 
+        rb.isKinematic = false;
+
         if (isExplosion)
         {
             rb.AddExplosionForce(ExplosionForce, transform.position, ExplosionRadius, 0.5f, ForceMode.Impulse);
-            // Inject heavy random velocity for maximum spread
             rb.linearVelocity += UnityEngine.Random.insideUnitSphere * ExplosionRandomVelocity;
         }
         else
         {
             rb.AddForce(force, ForceMode.Impulse);
-            // Inject slight random velocity so cascading pieces don't fall perfectly flat
             rb.linearVelocity += UnityEngine.Random.insideUnitSphere * DebrisRandomVelocity;
         }
 
         // Clean up the debris after a delay
-        Destroy(detachedVoxel, DebrisLifetime);
+        Destroy(detachedVoxel, GetRandomDebrisLifetime());
     }
 
     private void CheckHealthThresholds()
@@ -257,19 +256,19 @@ public class VoxelDestructionManager : MonoBehaviour
 
         float healthPercentage = (float)_currentActiveVoxels / _totalInitialVoxels;
 
-        if (healthPercentage <= 0.8f && !_passedCritical)
-        {
-            _passedCritical = true;
-            OnDamagedCritical.Invoke();
-        }
-
-        if (healthPercentage <= 0.6f && !_passedLight)
+        if (healthPercentage <= 0.8f && !_passedLight)
         {
             _passedLight = true;
-            OnDamagedLight.Invoke();
+            OnDamagedLight?.Invoke();
         }
 
-        if (healthPercentage <= 0.3f && !_passedExplode)
+        if (healthPercentage <= 0.6f && !_passedCritical)
+        {
+            _passedCritical = true;
+            OnDamagedCritical?.Invoke();
+        }
+
+        if (healthPercentage <= 0.4f && !_passedExplode)
         {
             _passedExplode = true;
             ExplodeEverything();
@@ -279,7 +278,7 @@ public class VoxelDestructionManager : MonoBehaviour
     private void ExplodeEverything()
     {
         CompleteJobIfNeeded();
-        OnExploded.Invoke();
+        OnExploded?.Invoke();
 
         for (int i = 0; i < _gridData.Length; i++)
         {
@@ -292,9 +291,10 @@ public class VoxelDestructionManager : MonoBehaviour
 
         // Disable the root's interactions
         Rigidbody mainRb = GetComponent<Rigidbody>();
-        if (mainRb != null) mainRb.isKinematic = true;
-
-        Destroy(gameObject, DebrisLifetime);
+        mainRb.isKinematic = true;
+        gameObject.layer = LayerMask.NameToLayer("FractureChunk");
+        
+        Destroy(gameObject, DebrisLifetimeMax);
     }
 
     private void OnDestroy()

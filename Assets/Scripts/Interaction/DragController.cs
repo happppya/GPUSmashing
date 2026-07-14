@@ -59,6 +59,7 @@ public class DragController : MonoBehaviour
         {
             if (hit.rigidbody != null)
             {
+                if (hit.rigidbody.isKinematic) return;
                 // Record the original distance to the object, clamped within our min/max limits
                 currentHoldDistance = Mathf.Clamp(hit.distance, minHoldDistance, maxHoldDistance);
 

@@ -10,7 +10,15 @@ public class GPUItemBuilder : ShopItemBuilder
         gpuDefinition = newDefinition;
         gpuDeliveryPoint = deliveryPoint;
         instanceContainer = container;
-        base.Initialize(gpuDefinition.DisplayName, gpuDefinition.Description, gpuDefinition.Price);
+        base.Initialize(gpuDefinition.DisplayName, gpuDefinition.Description, GetPrice());
+
+        UpgradeManager.OnUpgradeTypeChanged += (UpgradeType type) => {
+            if (type == UpgradeType.DiscountPercentage)
+            {
+                PriceChanged();
+            }
+        };
+
     }
 
     protected override bool CanBeBought()
@@ -21,9 +29,23 @@ public class GPUItemBuilder : ShopItemBuilder
     protected override void BuyButtonPressed()
     {
         if (!CanBeBought()) return;
-        CashManager.Instance.AddCash(gpuDefinition.Price * -1.0f);
+        
+        if (UnityEngine.Random.Range(0.0f, 1.0f) > UpgradeManager.Instance.GetStat(UpgradeType.FreeChance))
+        {
+            CashManager.Instance.AddCash(GetPrice() * -1.0f);
+        }
 
         GameObject graphicsCard = Instantiate(gpuDefinition.Prefab, instanceContainer);
         graphicsCard.transform.position = gpuDeliveryPoint.position;
+    }
+
+    private void PriceChanged()
+    {
+        base.SetCost(GetPrice());
+    }
+
+    private float GetPrice()
+    {
+        return gpuDefinition.Price * (1 - UpgradeManager.Instance.GetStat(UpgradeType.DiscountPercentage));
     }
 }
