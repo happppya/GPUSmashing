@@ -5051,16 +5051,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a73319b552d68b24d99cfb166c84672f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RentManager
-  periodLength: 90
+  periodLength: 70
   rentValues:
   - 250
   - 500
   - 1000
   - 2000
   - 4000
-  - 8000
-  - 16000
-  - 32000
+  - 15000
   currentDayIndex: 0
 --- !u!1 &1578282739
 GameObject:

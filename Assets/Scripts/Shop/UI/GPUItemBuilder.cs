@@ -23,6 +23,7 @@ public class GPUItemBuilder : ShopItemBuilder
 
     protected override bool CanBeBought()
     {
+        if (gpuDefinition.Price <= 0) { return true; }
         return CashManager.Instance.CanSpendCash(gpuDefinition.Price);
     }
 
