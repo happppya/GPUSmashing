@@ -123,6 +123,7 @@ MonoBehaviour:
   buyButton: {fileID: 2374284616182442525}
   affordableColor: {r: 0.5176471, g: 1, b: 0.5176471, a: 1}
   notAffordableColor: {r: 1, g: 0.51922953, b: 0.5176471, a: 1}
+  upgradeBuySound: {fileID: 11400000, guid: 7155616bb34c23049beca133dba12f89, type: 2}
 --- !u!114 &2221869697227168723 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6856899629850997457, guid: 430a8fbb379fcf5439b5a8a21bf17a82, type: 3}

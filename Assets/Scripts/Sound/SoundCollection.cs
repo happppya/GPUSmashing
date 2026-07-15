@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundCollection : ScriptableObject
 {
     [SerializeField] public AudioClip[] Clips;
-    private float nextAllowedPlayTime = -1f;
+    [NonSerialized] private float nextAllowedPlayTime = -1f;
 
     public AudioClip GetRandomClip()
     {
@@ -14,6 +14,7 @@ public class SoundCollection : ScriptableObject
 
     public bool CanPlay(float overlapThreshold = 0f)
     {
+        Debug.Log($"Can play? {Time.time}, {(nextAllowedPlayTime - overlapThreshold)}, {overlapThreshold}");
         return Time.time >= (nextAllowedPlayTime - overlapThreshold);
     }
 

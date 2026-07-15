@@ -16,7 +16,7 @@ MonoBehaviour:
   DisplayName: Majorana 19.4
   Description: Suspended in an absolute-zero vacuum chamber, this monolith calculates
     probabilities across parallel universes to harvest astronomical wealth.
-  Price: 50000
+  Price: 190000
   BaseEarnings:
-    Min: 99999
-    Max: 99999999
+    Min: 100000000
+    Max: 100000000

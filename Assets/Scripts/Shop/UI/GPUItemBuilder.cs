@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GPUItemBuilder : ShopItemBuilder
 {
+    [SerializeField] private SoundCollection GPUBuySound;
+   
     private Transform gpuDeliveryPoint;
     private Transform instanceContainer;
     private GraphicsCardSO gpuDefinition;
@@ -38,6 +40,8 @@ public class GPUItemBuilder : ShopItemBuilder
 
         GameObject graphicsCard = Instantiate(gpuDefinition.Prefab, instanceContainer);
         graphicsCard.transform.position = gpuDeliveryPoint.position;
+
+        SoundUtility.PlayRandomSound(GPUBuySound, null, false);
     }
 
     private void PriceChanged()

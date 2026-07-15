@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class UpgradeItemBuilder : ShopItemBuilder
 {
+    [SerializeField] private SoundCollection upgradeBuySound;
+
     private UpgradeSO upgradeDefinition;
     private bool isMax = false;
-
     public void Initialize(UpgradeSO newDefinition)
     {
         upgradeDefinition = newDefinition;
@@ -22,8 +24,11 @@ public class UpgradeItemBuilder : ShopItemBuilder
     protected override void BuyButtonPressed()
     {
         if (!CanBeBought()) return;
-        
+
+        float originalPrice = upgradeDefinition.CurrentPrice;
+
         upgradeDefinition.UpdateOnBought();
+
         base.SetCost(upgradeDefinition.CurrentPrice);
         base.SetName(upgradeDefinition.DisplayName + $" [{upgradeDefinition.CurrentLevel}]");
 
@@ -33,10 +38,12 @@ public class UpgradeItemBuilder : ShopItemBuilder
             isMax = true;
         }
 
+        CashManager.Instance.AddCash(originalPrice * -1.0f);
         UpgradeManager.Instance.RecalculateStatsOnUpgrade(upgradeDefinition);
-        CashManager.Instance.AddCash(upgradeDefinition.CurrentPrice * -1.0f);
-
+        
         UpdateDescription();
+
+        SoundUtility.PlayRandomSound(upgradeBuySound, null, false);
     }
 
     private void UpdateDescription()

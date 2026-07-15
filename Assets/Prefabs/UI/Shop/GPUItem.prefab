@@ -156,6 +156,7 @@ MonoBehaviour:
   buyButton: {fileID: 5045368640012048420}
   affordableColor: {r: 0.5176471, g: 1, b: 0.5176471, a: 1}
   notAffordableColor: {r: 1, g: 0.52156866, b: 0.5176471, a: 1}
+  GPUBuySound: {fileID: 11400000, guid: 44ff01493ce20e343a9b0fae38a8b3fb, type: 2}
 --- !u!114 &8656567175055993322 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6856899629850997457, guid: 430a8fbb379fcf5439b5a8a21bf17a82, type: 3}
