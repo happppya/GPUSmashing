@@ -16,7 +16,7 @@ MonoBehaviour:
   DisplayName: Geforce 256
   Description: It belongs in a museum, but this vintage relic still chugs along to
     generate a humble profit
-  Price: 1
+  Price: 0
   BaseEarnings:
     Min: 30
     Max: 60

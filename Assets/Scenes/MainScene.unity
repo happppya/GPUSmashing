@@ -766,6 +766,8 @@ MonoBehaviour:
     BaseValue: 0.01
   - UpgradeType: 8
     BaseValue: 30
+  - UpgradeType: 4
+    BaseValue: 0.3
   shopRegistry: {fileID: 11400000, guid: cdb1c1d69d7e8364893178babfaf4eb5, type: 2}
 --- !u!1 &224649153
 GameObject:
