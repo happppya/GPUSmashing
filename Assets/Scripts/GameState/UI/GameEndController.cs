@@ -78,7 +78,8 @@ public class GameEndController : MonoBehaviour
         float totalSeconds = Time.time;
         int minutes = (int)(totalSeconds / 60);
         int seconds = (int)(totalSeconds % 60);
-        statsLabel.text = $"Time: {minutes} minutes {seconds} seconds\nCash: {CashManager.Instance.Cash:C0}";
+        string cashFormatted = (cash >= 0) ? cash.ToString("C0") : Mathf.Abs(cash).ToString("C0") + " debt";
+        statsLabel.text = $"Time: {minutes} minutes {seconds} seconds\nCash: {cashFormatted}";
 
         if (source == GameEndSource.Millionaire)
         {

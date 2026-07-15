@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -132,9 +133,17 @@ public class VoxelDestructionManager : MonoBehaviour
                 DestroyVoxel(index, collision.relativeVelocity);
             }
 
+            // If not found, pick a random index from the existing dictionary values
+            else if (colliderToIndex.Count > 0)
+            {
+                int randomIndex = colliderToIndex.Values.ElementAt(UnityEngine.Random.Range(0, colliderToIndex.Count));
+                DestroyVoxel(randomIndex, collision.relativeVelocity);
+            }
+
             SoundUtility.PlayRandomSound(config.ImpactHeavy, audioSource, true);
 
-        } else if (collision.impulse.sqrMagnitude > 0.15)
+        }
+        else if (collision.impulse.sqrMagnitude > 0.15f)
         {
             SoundUtility.PlayRandomSound(config.ImpactLight, audioSource, true);
         }
