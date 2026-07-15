@@ -14,7 +14,6 @@ public class SoundCollection : ScriptableObject
 
     public bool CanPlay(float overlapThreshold = 0f)
     {
-        Debug.Log($"Can play? {Time.time}, {(nextAllowedPlayTime - overlapThreshold)}, {overlapThreshold}");
         return Time.time >= (nextAllowedPlayTime - overlapThreshold);
     }
 

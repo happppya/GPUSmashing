@@ -28,6 +28,17 @@ public class ShopViewController : MonoBehaviour
     private enum ShopState { Closed, Opening, Open, Closing }
     private ShopState currentState = ShopState.Closed;
 
+    public void SetShopState(bool enabled)
+    {
+        if (enabled)
+        {
+            shopWindow.anchoredPosition = visiblePosition;
+        } else
+        {
+            shopWindow.anchoredPosition = hiddenPosition;
+        }
+    }
+
     private void ToggleMenuButtons(Button selectedButton, TMP_Text selectedText, Button unselectedButton, TMP_Text unselectedText)
     {
         Image selectedButtonImage = selectedButton.GetComponent<Image>();
@@ -75,13 +86,14 @@ public class ShopViewController : MonoBehaviour
 
     private void Update()
     {
+        if (GameEndController.Instance.IsGameOver) return;
         if (Keyboard.current.mKey.wasPressedThisFrame)
         {
             ToggleShop();
         }
     }
 
-    public void ToggleShop()
+    private void ToggleShop()
     {
         // Only allow toggling if fully closed or fully open
         if (currentState == ShopState.Closed)

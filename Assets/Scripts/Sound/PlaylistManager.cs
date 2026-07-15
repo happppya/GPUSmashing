@@ -9,16 +9,15 @@ public class PlaylistManager : MonoBehaviour
     private AudioSource audioSource;
     private List<AudioClip> shuffledQueue = new List<AudioClip>();
     private int currentSongIndex = 0;
+    public void BeginPlaylist()
+    {
+        InitializeQueue();
+        PlayNextSong();
+    }
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-    }
-
-    private void Start()
-    {
-        InitializeQueue();
-        PlayNextSong();
     }
 
     private void Update()

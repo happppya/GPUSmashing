@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class RentManager : MonoBehaviour
 {
+
+    private static float periodLength = 5;
+
     public static RentManager Instance { get; private set; }
     public static event Action OnPeriodAdvanced;
-    public static event Action OnGameOver;
-
-    private bool gameOver = false;
-
-    [SerializeField] private float periodLength = 90.0f;
+    public static event Action OnPeriodsExhausted;
+    
     private float currentTime = 0.0f;
 
     [SerializeField]
@@ -17,6 +17,11 @@ public class RentManager : MonoBehaviour
 
     [SerializeField]
     private int currentDayIndex = 0;
+
+    public static void SetPeriodLength(float time)
+    {
+        periodLength = time;
+    }
 
     public int GetSecondsToNextPeriod()
     {
@@ -36,7 +41,7 @@ public class RentManager : MonoBehaviour
 
     void Update()
     {
-        if (gameOver) return;
+        if (GameEndController.Instance.IsGameOver) return;
         
         currentTime += Time.deltaTime;
         if (currentTime > periodLength)
@@ -45,10 +50,7 @@ public class RentManager : MonoBehaviour
             AdvanceToNextPeriod();
             if (currentDayIndex >= rentValues.Length)
             {
-                gameOver = true;
-                Time.timeScale = 0.0f;
-                OnGameOver?.Invoke();
-                Debug.Log("Game over");
+                OnPeriodsExhausted?.Invoke();
             }
         }
     }

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class IntroScreenController : MonoBehaviour
 {
-    public static event Action<float> OnTimeSelected;
 
     [SerializeField] private Button startButtonEasy;
     [SerializeField] private Button startButtonMedium;
@@ -39,7 +38,8 @@ public class IntroScreenController : MonoBehaviour
 
     private void StartGame(float time)
     {
-        OnTimeSelected?.Invoke(time);
+        Debug.Log($"firing with time {time}");
+        RentManager.SetPeriodLength(time);
         SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
     }
 }

@@ -16,7 +16,6 @@ public static class SoundUtility
             UnityEngine.Object.DontDestroyOnLoad(globalSource.gameObject);
         }
 
-        Debug.Log($"called {preventOverlap}, {collection.CanPlay(overlapThreshold)}");
         if (preventOverlap && !collection.CanPlay(overlapThreshold))
         {
             return;

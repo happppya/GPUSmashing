@@ -4,12 +4,16 @@ using UnityEngine;
 public class InterestManager : MonoBehaviour
 {
     public static InterestManager Instance { get; private set; }
+    public static event Action OnMissesExhausted;
+
     public bool IsInDebt => isInDebt;
 
     [SerializeField] private float interestTime = 30.0f;
     [SerializeField] private float interestRate = 1.0f;
+    [SerializeField] private int missesUntilGameEnd = 3;
 
     private float currentInterestTime;
+    private int consecutiveMisses = 0;
 
     bool isInDebt = false;
 
@@ -29,16 +33,17 @@ public class InterestManager : MonoBehaviour
     }
     void Update()
     {
-        if (CashManager.Instance.Cash > 0)
+        if (CashManager.Instance.Cash >= 0)
         {
-            if (isInDebt == true)
+            if (isInDebt)
             {
                 isInDebt = false;
+                consecutiveMisses = 0;
             }
             return;
         }
 
-        if (isInDebt == false)
+        if (!isInDebt)
         {
             isInDebt = true;
             currentInterestTime = interestTime;
@@ -49,6 +54,12 @@ public class InterestManager : MonoBehaviour
         {
             currentInterestTime = interestTime;
             CashManager.Instance.AddCash(GetInterest() * -1.0f);
+            consecutiveMisses++;
+
+            if (consecutiveMisses == missesUntilGameEnd)
+            {
+                OnMissesExhausted?.Invoke();
+            }
         }
     }
 }
