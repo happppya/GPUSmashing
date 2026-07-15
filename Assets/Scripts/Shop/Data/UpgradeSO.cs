@@ -9,6 +9,12 @@ public enum StatFormatType
     Currency,
 }
 
+public enum ValueType
+{
+    LocalContribution,
+    TotalValue,
+}
+
 [System.Serializable]
 public struct UpgradeModifier
 {
@@ -18,6 +24,8 @@ public struct UpgradeModifier
     public float MinValue;
     public float MaxValue;
     public StatFormatType FormatType;
+    public bool SignedFormatting;
+    public ValueType valueType;
 }
 
 [CreateAssetMenu(fileName = "NewUpgrade", menuName = "Upgrades/Upgrade")]

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class UpgradeItemBuilder : ShopItemBuilder
@@ -45,7 +46,18 @@ public class UpgradeItemBuilder : ShopItemBuilder
         {
             if (modifier.Tag == null || modifier.Tag.Length == 0) continue;
 
-            float statValue = UpgradeManager.Instance.GetStat(modifier.UpgradeType);
+            float statValue;
+            if (modifier.valueType == ValueType.LocalContribution)
+            {
+                statValue = UpgradeManager.Instance.GetUpgradeContribution(upgradeDefinition, modifier.UpgradeType);
+            } else if (modifier.valueType == ValueType.TotalValue)
+            {
+                statValue = UpgradeManager.Instance.GetStat(modifier.UpgradeType);
+            } else
+            {
+                throw new Exception();
+            }
+
             string statFormatted = modifier.FormatType switch
             {
                 StatFormatType.None => statValue.ToString(),
@@ -53,6 +65,12 @@ public class UpgradeItemBuilder : ShopItemBuilder
                 StatFormatType.Currency => statValue.ToString("C0"),
                 _ => throw new System.ArgumentException($"Invalid format type {modifier.FormatType}"),
             };
+            
+            if (modifier.SignedFormatting)
+            {
+                string sign = statValue >= 0 ? "+" : "-";
+                statFormatted = sign + statFormatted;
+            }
 
             newDescription = newDescription.Replace(modifier.Tag, statFormatted);
         }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 935b5c63b0f309841a17fa78fb48b39f, type: 3}
-  m_Name: Bargaining
+  m_Name: Discount1
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   DisplayName: Bargaining
   Description: Through the art of haggling, you save [1] when buying new GPUs.
@@ -24,5 +24,6 @@ MonoBehaviour:
     MinValue: 0
     MaxValue: 1
     FormatType: 1
+    SignedFormatting: 1
   CurrentPrice: 100
   CurrentLevel: 0

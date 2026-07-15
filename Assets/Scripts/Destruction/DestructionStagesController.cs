@@ -51,13 +51,15 @@ public class DestructionStagesController : MonoBehaviour
         voxelDestructionManager.OnDamagedCritical += DamagedCritical;
         voxelDestructionManager.OnExploded += Exploded;
 
+        float baseEarnings = config.BaseEarnings.GetRandomValue();
         float totalEarnings =
             UpgradeManager.Instance.GetStat(UpgradeType.GPUBaseEarningAdd)
             + (
-                config.BaseEarnings.GetRandomValue() 
+                baseEarnings
                 * (1 + UpgradeManager.Instance.GetStat(UpgradeType.GPUBaseEarningMultiplier))
             );
 
+        Debug.Log($"BASE {baseEarnings} TOTAL {totalEarnings} with mult {UpgradeManager.Instance.GetStat(UpgradeType.GPUBaseEarningMultiplier)}");
         float random = UnityEngine.Random.Range(0.0f, 1.0f);
 
         lightEarnings = 0.1f * totalEarnings;

@@ -10,30 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 935b5c63b0f309841a17fa78fb48b39f, type: 3}
-  m_Name: JackpotChance
+  m_Name: BaseEarningMultiplier1
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
-  DisplayName: Jackpot Chance
-  Description: A small chance to hit the crypto lottery. [1] chance to hit a jackpot
-    for [2]x money.
-  BasePrice: 250
-  PriceIncrement: 500
+  DisplayName: Sell High
+  Description: The price of bitcoin goes up. You earn [1] more.
+  BasePrice: 100
+  PriceIncrement: 600
   MaxLevel: 5
   UpgradeModifiers:
   - Tag: '[1]'
-    UpgradeType: 5
-    IncrementPerLevel: 0.03
+    UpgradeType: 4
+    IncrementPerLevel: 0.05
     MinValue: 0
-    MaxValue: 10
+    MaxValue: 1
     FormatType: 1
     SignedFormatting: 1
-    valueType: 0
-  - Tag: '[2]'
-    UpgradeType: 6
-    IncrementPerLevel: 0
-    MinValue: 0
-    MaxValue: 0
-    FormatType: 0
-    SignedFormatting: 0
-    valueType: 1
-  CurrentPrice: 250
+  CurrentPrice: 100
   CurrentLevel: 0

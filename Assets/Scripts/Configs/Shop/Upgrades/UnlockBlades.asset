@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935b5c63b0f309841a17fa78fb48b39f, type: 3}
+  m_Name: UnlockBlades
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
+  DisplayName: Spinning Blades of Death
+  Description: Install spinning blades in your bathroom for super convenient GPU
+    smashing.
+  BasePrice: 3000
+  PriceIncrement: 0
+  MaxLevel: 1
+  UpgradeModifiers:
+  - Tag: 
+    UpgradeType: 10
+    IncrementPerLevel: 1
+    MinValue: 0
+    MaxValue: 1
+    FormatType: 0
+  CurrentPrice: 350
+  CurrentLevel: 0

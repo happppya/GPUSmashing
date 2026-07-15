@@ -14,10 +14,13 @@ public enum UpgradeType
     JackpotEarningMultiplier,
     SuperJackpotChance,
     SuperJackpotEarningMultiplier,
+
+    UnlockedSpikes,
+    UnlockedBlades,
 }
 
 [Serializable]
-struct BaseValueConfig
+public struct BaseValueConfig
 {
     public UpgradeType UpgradeType;
     public float BaseValue;
@@ -28,63 +31,95 @@ public class UpgradeManager : MonoBehaviour
     public static UpgradeManager Instance { get; private set; }
     public static event Action<UpgradeType> OnUpgradeTypeChanged;
 
+    [Header("Configuration")]
     [SerializeField] private BaseValueConfig[] baseValues;
     [SerializeField] private ShopDataRegistry shopRegistry;
-    private Dictionary<UpgradeType, float> statCache = new Dictionary<UpgradeType, float>();
-    private Dictionary<UpgradeType, float> baseValueMap = new Dictionary<UpgradeType, float>();
+
+    // Caches the calculated total bonus from all upgrades for a specific stat
+    private readonly Dictionary<UpgradeType, float> statCache = new Dictionary<UpgradeType, float>();
+
+    // Caches the base values
+    private readonly Dictionary<UpgradeType, float> baseValueMap = new Dictionary<UpgradeType, float>();
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
         InitializeCache();
     }
 
     private void InitializeCache()
     {
-        foreach (BaseValueConfig baseValueConfig in baseValues)
+        baseValueMap.Clear();
+        foreach (BaseValueConfig config in baseValues)
         {
-            baseValueMap[baseValueConfig.UpgradeType] = baseValueConfig.BaseValue;
+            baseValueMap[config.UpgradeType] = config.BaseValue;
         }
 
         statCache.Clear();
 
-        // Initialize all types to 0
+        // Initialize all enum types to 0
         foreach (UpgradeType type in Enum.GetValues(typeof(UpgradeType)))
         {
             statCache[type] = 0f;
         }
 
-        // Calculate initial values
-        foreach (var upgrade in shopRegistry.AllUpgrades)
+        // Calculate initial values from all upgrades
+        if (shopRegistry != null && shopRegistry.AllUpgrades != null)
         {
-            ApplyUpgradeToCache(upgrade);
+            foreach (var upgrade in shopRegistry.AllUpgrades)
+            {
+                ApplyUpgradeToCache(upgrade);
+            }
         }
     }
-    
+
     public float GetStat(UpgradeType type)
     {
-        if (statCache.TryGetValue(type, out float value))
-            return baseValueMap.GetValueOrDefault(type, 0.0f) + value;
+        float baseValue = baseValueMap.GetValueOrDefault(type, 0.0f);
+        float bonusValue = statCache.GetValueOrDefault(type, 0.0f);
 
-        return baseValueMap.GetValueOrDefault(type, 0.0f);
+        return baseValue + bonusValue;
+    }
+
+    public float GetUpgradeContribution(UpgradeSO upgrade, UpgradeType type)
+    {
+        if (upgrade == null || upgrade.UpgradeModifiers == null) return 0f;
+
+        foreach (var modifier in upgrade.UpgradeModifiers)
+        {
+            if (modifier.UpgradeType == type)
+            {
+                return CalculateModifierValue(upgrade.CurrentLevel, modifier);
+            }
+        }
+
+        // If the upgrade doesn't affect this stat, it contributes 0
+        return 0f;
     }
 
     public void RecalculateStatsOnUpgrade(UpgradeSO leveledUpgrade)
     {
-        // Identify which stat types need recalculating
+        if (leveledUpgrade == null || leveledUpgrade.UpgradeModifiers == null) return;
+
+        // Identify which stat types need recalculating based on the specific upgrade
         HashSet<UpgradeType> affectedTypes = new HashSet<UpgradeType>();
         foreach (var modifier in leveledUpgrade.UpgradeModifiers)
         {
             affectedTypes.Add(modifier.UpgradeType);
         }
 
-        // Reset those stats in the cache
+        // Reset those specific stats in the cache back to 0
         foreach (var type in affectedTypes)
         {
             statCache[type] = 0f;
         }
 
-        // Re-sum only the upgrades that contribute to the affected types
+        // Re-sum the contributions from all upgrades, but only for the affected types
         foreach (var upgrade in shopRegistry.AllUpgrades)
         {
             foreach (var modifier in upgrade.UpgradeModifiers)
@@ -97,20 +132,17 @@ public class UpgradeManager : MonoBehaviour
             }
         }
 
+        // Notify listeners that these specific stats have changed
         foreach (var type in affectedTypes)
         {
             OnUpgradeTypeChanged?.Invoke(type);
         }
-
-        /*Debug.Log("NEW UPGRADE");
-        foreach (var kvp in statCache)
-        {
-            Debug.Log($"{kvp.Key}: {kvp.Value}");
-        }*/
     }
 
     private void ApplyUpgradeToCache(UpgradeSO upgrade)
     {
+        if (upgrade.UpgradeModifiers == null) return;
+
         foreach (var modifier in upgrade.UpgradeModifiers)
         {
             float modifierValue = CalculateModifierValue(upgrade.CurrentLevel, modifier);
@@ -120,10 +152,7 @@ public class UpgradeManager : MonoBehaviour
 
     private float CalculateModifierValue(int level, UpgradeModifier modifier)
     {
-        float calculatedValue = (level * modifier.IncrementPerLevel);
-        calculatedValue = Mathf.Clamp(calculatedValue, modifier.MinValue, modifier.MaxValue);
-
-        return calculatedValue;
+        float calculatedValue = level * modifier.IncrementPerLevel;
+        return Mathf.Clamp(calculatedValue, modifier.MinValue, modifier.MaxValue);
     }
-
 }

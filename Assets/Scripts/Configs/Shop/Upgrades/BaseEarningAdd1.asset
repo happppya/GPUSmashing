@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 935b5c63b0f309841a17fa78fb48b39f, type: 3}
-  m_Name: Scamming
+  m_Name: BaseEarningAdd1
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
-  DisplayName: Scamming
-  Description: Run away without paying for the card (try not to go to prison). [1]
-    success rate.
-  BasePrice: 2000
-  PriceIncrement: 1000
-  MaxLevel: 6
+  DisplayName: Smashfficiency
+  Description: You earn an extra [1] with every GPU smashed.
+  BasePrice: 200
+  PriceIncrement: 300
+  MaxLevel: 10
   UpgradeModifiers:
   - Tag: '[1]'
-    UpgradeType: 1
-    IncrementPerLevel: 0.03
+    UpgradeType: 3
+    IncrementPerLevel: 100
     MinValue: 0
-    MaxValue: 1
+    MaxValue: 10000
     FormatType: 1
-  CurrentPrice: 2000
+    SignedFormatting: 1
+  CurrentPrice: 200
   CurrentLevel: 0
