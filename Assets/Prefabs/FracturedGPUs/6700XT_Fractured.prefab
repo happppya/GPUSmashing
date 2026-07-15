@@ -4193,6 +4193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructionManager
   AnchorObjects:
   - {fileID: 5076787036555514464}
+  RequiredDestructionForce: 0.5
   DebrisLifetimeMin: 3
   DebrisLifetimeMax: 5
   ExplosionForce: 5

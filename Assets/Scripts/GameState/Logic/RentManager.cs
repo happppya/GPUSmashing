@@ -56,8 +56,8 @@ public class RentManager : MonoBehaviour
     private void AdvanceToNextPeriod()
     {
         CashManager.Instance.AddCash(-1.0f * rentValues[currentDayIndex]);
-        OnPeriodAdvanced?.Invoke();
         currentDayIndex++;
+        OnPeriodAdvanced?.Invoke();
     }
 
 }

@@ -76,9 +76,5 @@ public class DestructionStagesController : MonoBehaviour
             isJackpot = true;
             explodeEarnings += totalEarnings * (UpgradeManager.Instance.GetStat(UpgradeType.JackpotEarningMultiplier) - 1);
         }
-
-        Debug.Log("GOT RANDOM NUMBER " + random.ToString());
-
-        Debug.Log($"GOT EARNINGS {lightEarnings} {criticalEarnings} {explodeEarnings} JACKPOT {isJackpot} {isSuperJackpot}");
     }
 }

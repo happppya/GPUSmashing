@@ -11,7 +11,8 @@ public class VoxelDestructionManager : MonoBehaviour
 {
     
     public List<GameObject> AnchorObjects; // Starting points of island algorithm. Will explode if one is destroyed
-    
+
+    public float RequiredDestructionForce = 3.8f;
     public float DebrisLifetimeMin = 3f;
     public float DebrisLifetimeMax = 5f;
     public float ExplosionForce = 5f;
@@ -125,7 +126,7 @@ public class VoxelDestructionManager : MonoBehaviour
         // Stop calculating if we are already dead
         if (_passedExplode) return;
 
-        if (collision.impulse.sqrMagnitude > 4f)
+        if (collision.impulse.sqrMagnitude > RequiredDestructionForce)
         {
             Collider hitCollider = collision.GetContact(0).thisCollider;
 
