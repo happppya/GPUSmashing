@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60f14f389ffa8b40a68996ca40c1dfc, type: 3}
+  m_Name: Geforce256
+  m_EditorClassIdentifier: Assembly-CSharp::GraphicsCardSO
+  Prefab: {fileID: 6609928560528191683, guid: 32d862c6f45883b49bcd2c03a150030b, type: 3}
+  DisplayName: Geforce 256
+  Description: It belongs in a museum, but this vintage relic still chugs along to
+    generate a humble profit
+  Price: 1
+  BaseEarnings:
+    Min: 30
+    Max: 60

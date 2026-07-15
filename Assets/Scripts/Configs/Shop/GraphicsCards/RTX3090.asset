@@ -17,8 +17,6 @@ MonoBehaviour:
   Description: Older card that still maintains beastly power. A popular choice for
     professionals.
   Price: 1499
-  JackpotChance: 0.1
-  SuperJackpotChance: 0.01
   BaseEarnings:
-    Min: 2000
-    Max: 3000
+    Min: 1700
+    Max: 2300

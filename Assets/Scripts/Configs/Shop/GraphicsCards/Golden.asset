@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60f14f389ffa8b40a68996ca40c1dfc, type: 3}
+  m_Name: Golden
+  m_EditorClassIdentifier: Assembly-CSharp::GraphicsCardSO
+  Prefab: {fileID: 7901500227368866594, guid: 23825ac12c9b4b044a91d7893621859c, type: 3}
+  DisplayName: RTX 7777 Gold
+  Description: Cast from solid 24-karat bullion and cooled by liquid prestige. A
+    card made for the high-rollers.
+  Price: 9999
+  BaseEarnings:
+    Min: 9999
+    Max: 17000

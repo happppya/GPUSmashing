@@ -20,8 +20,5 @@ public class GraphicsCardSO : ScriptableObject
     public string Description;
     public float Price;
 
-    public float JackpotChance;
-    public float SuperJackpotChance;
-
     public IntRange BaseEarnings;
 }

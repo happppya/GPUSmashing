@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60f14f389ffa8b40a68996ca40c1dfc, type: 3}
+  m_Name: 6700XT
+  m_EditorClassIdentifier: Assembly-CSharp::GraphicsCardSO
+  Prefab: {fileID: 2947744825005551932, guid: 18dd27477472b8044abff951cef43065, type: 3}
+  DisplayName: Radeon RX 6700 XT
+  Description: The sweet spot of modern performance. With dual-fan cooling and robust
+    architecture, it delivers reliable revenue.
+  Price: 950
+  BaseEarnings:
+    Min: 1200
+    Max: 1450

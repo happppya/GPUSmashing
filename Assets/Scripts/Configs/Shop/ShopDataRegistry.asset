@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: ShopDataRegistry
   m_EditorClassIdentifier: Assembly-CSharp::ShopDataRegistry
   AllGraphicsCards:
+  - {fileID: 11400000, guid: b987bfdd090860045ad687a390de6c96, type: 2}
+  - {fileID: 11400000, guid: 3a4fe83b11fe58f4794894f5a7bf5036, type: 2}
+  - {fileID: 11400000, guid: 11680c6396b86be44bde4f0c6145b73c, type: 2}
+  - {fileID: 11400000, guid: 159b61456129b5b4c9dcf1f46fd07f6d, type: 2}
   - {fileID: 11400000, guid: 074185f7f5a902144ae46d5123b8466d, type: 2}
+  - {fileID: 11400000, guid: 4039c7d4f1e63574ba76ff1d5de16ed9, type: 2}
+  - {fileID: 11400000, guid: c411bf6660ba2184d95d5785b2ec79f3, type: 2}
+  - {fileID: 11400000, guid: 340b109c48dfdc84b8bc6542c65ede04, type: 2}
+  - {fileID: 11400000, guid: bc2e046d4e5e9974ab81fc662cd6903a, type: 2}
   AllUpgrades:
   - {fileID: 11400000, guid: ee5f0c453fdef0c468b8df06774d8de4, type: 2}
   - {fileID: 11400000, guid: 24c2be934f44b7a459f5a7007f46db8f, type: 2}
