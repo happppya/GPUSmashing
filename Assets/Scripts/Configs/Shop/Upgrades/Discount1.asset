@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   DisplayName: Bargaining
   Description: Through the art of haggling, you save [1] when buying new GPUs.
-  BasePrice: 100
-  PriceIncrement: 100
+  BasePrice: 70
+  PriceIncrement: 90
   MaxLevel: 5
   UpgradeModifiers:
   - Tag: '[1]'
@@ -25,5 +25,6 @@ MonoBehaviour:
     MaxValue: 1
     FormatType: 1
     SignedFormatting: 1
-  CurrentPrice: 100
-  CurrentLevel: 0
+    valueType: 0
+  CurrentPrice: 500
+  CurrentLevel: 4

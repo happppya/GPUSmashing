@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   DisplayName: Con Artist
   Description: Get even better at scamming people. [1] success rate.
-  BasePrice: 10000
-  PriceIncrement: 20000
+  BasePrice: 2000
+  PriceIncrement: 500
   MaxLevel: 5
   UpgradeModifiers:
   - Tag: '[1]'
@@ -26,5 +26,5 @@ MonoBehaviour:
     FormatType: 1
     SignedFormatting: 1
     valueType: 0
-  CurrentPrice: 10000
-  CurrentLevel: 0
+  CurrentPrice: 110000
+  CurrentLevel: 5

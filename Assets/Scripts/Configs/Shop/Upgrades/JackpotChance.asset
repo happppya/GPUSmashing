@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: A small chance to hit the crypto lottery. [1] chance to hit a jackpot
     for [2]x money.
   BasePrice: 250
-  PriceIncrement: 500
+  PriceIncrement: 250
   MaxLevel: 5
   UpgradeModifiers:
   - Tag: '[1]'
@@ -35,5 +35,5 @@ MonoBehaviour:
     FormatType: 0
     SignedFormatting: 0
     valueType: 1
-  CurrentPrice: 250
-  CurrentLevel: 0
+  CurrentPrice: 2750
+  CurrentLevel: 5

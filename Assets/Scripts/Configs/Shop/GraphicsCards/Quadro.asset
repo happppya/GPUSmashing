@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GraphicsCardSO
   Prefab: {fileID: 1088892219100305754, guid: ac6ac68c6d98b324ca2475b3c6cb02cd, type: 3}
   DisplayName: Quadro 4000
-  Description: A sleek workstation card designed for 3D modeling and servers.x
+  Description: A sleek workstation card designed for 3D modeling and servers.
   Price: 680
   BaseEarnings:
     Min: 700

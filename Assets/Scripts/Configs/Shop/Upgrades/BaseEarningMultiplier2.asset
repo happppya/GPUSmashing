@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   DisplayName: Market Manipulation
   Description: Illegally inflate prices to get more money. You earn [1] more.
-  BasePrice: 800
-  PriceIncrement: 1000
+  BasePrice: 400
+  PriceIncrement: 150
   MaxLevel: 10
   UpgradeModifiers:
   - Tag: '[1]'
@@ -25,5 +25,6 @@ MonoBehaviour:
     MaxValue: 1
     FormatType: 1
     SignedFormatting: 1
-  CurrentPrice: 800
-  CurrentLevel: 0
+    valueType: 0
+  CurrentPrice: 10800
+  CurrentLevel: 10

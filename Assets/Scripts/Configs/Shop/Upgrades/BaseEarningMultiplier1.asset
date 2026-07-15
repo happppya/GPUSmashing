@@ -15,7 +15,7 @@ MonoBehaviour:
   DisplayName: Sell High
   Description: The price of bitcoin goes up. You earn [1] more.
   BasePrice: 100
-  PriceIncrement: 600
+  PriceIncrement: 100
   MaxLevel: 5
   UpgradeModifiers:
   - Tag: '[1]'
@@ -25,5 +25,6 @@ MonoBehaviour:
     MaxValue: 1
     FormatType: 1
     SignedFormatting: 1
-  CurrentPrice: 100
-  CurrentLevel: 0
+    valueType: 0
+  CurrentPrice: 1900
+  CurrentLevel: 3

@@ -15,8 +15,8 @@ MonoBehaviour:
   DisplayName: Scamming
   Description: Run away without paying for the card (try not to go to prison). [1]
     success rate.
-  BasePrice: 2000
-  PriceIncrement: 1000
+  BasePrice: 600
+  PriceIncrement: 200
   MaxLevel: 6
   UpgradeModifiers:
   - Tag: '[1]'

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSO
   DisplayName: Smashfficiency
   Description: You earn an extra [1] with every GPU smashed.
-  BasePrice: 200
-  PriceIncrement: 300
+  BasePrice: 40
+  PriceIncrement: 80
   MaxLevel: 10
   UpgradeModifiers:
   - Tag: '[1]'
@@ -25,5 +25,6 @@ MonoBehaviour:
     MaxValue: 10000
     FormatType: 1
     SignedFormatting: 1
+    valueType: 0
   CurrentPrice: 200
   CurrentLevel: 0

@@ -5053,6 +5053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RentManager
   periodLength: 90
   rentValues:
+  - 250
   - 500
   - 1000
   - 2000
