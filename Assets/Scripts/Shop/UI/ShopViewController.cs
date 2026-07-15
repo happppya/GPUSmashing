@@ -86,7 +86,7 @@ public class ShopViewController : MonoBehaviour
 
     private void Update()
     {
-        if (GameEndController.Instance.IsGameOver) return;
+        if (GameEndController.Instance.IsGameOver || !TutorialController.IsFinished) return;
         if (Keyboard.current.mKey.wasPressedThisFrame)
         {
             ToggleShop();

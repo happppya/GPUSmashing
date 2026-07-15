@@ -7,6 +7,7 @@ public struct TutorialPage
 {
     public GameObject PageContainer;
     public GameObject[] Steps;
+    public bool HidePreviousSteps;
 }
 
 public class TutorialController : MonoBehaviour
@@ -19,12 +20,13 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private GameObject closeShopTrigger;
     [SerializeField] private GameObject playlistStartTrigger;
 
-    private bool isFinished = false;
+    public static bool IsFinished = false;
     private int pageIndex = 0;
     private int stepIndex = 0;
 
     void Start()
     {
+        Time.timeScale = 0.0f;
         // Deactivate everything initially
         foreach (TutorialPage page in pages)
         {
@@ -40,7 +42,7 @@ public class TutorialController : MonoBehaviour
 
     void Update()
     {
-        if (isFinished) return;
+        if (IsFinished) return;
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             AdvanceToNextStep();
@@ -51,7 +53,10 @@ public class TutorialController : MonoBehaviour
     {
         // Deactivate current step
         TutorialPage currentPage = pages[pageIndex];
-        currentPage.Steps[stepIndex].SetActive(false);
+        if (currentPage.HidePreviousSteps)
+        {
+            currentPage.Steps[stepIndex].SetActive(false);
+        }
 
         stepIndex++;
 
@@ -66,7 +71,8 @@ public class TutorialController : MonoBehaviour
         // Tutorial completion
         if (pageIndex >= pages.Length)
         {
-            isFinished = true;
+            Time.timeScale = 1.0f;
+            IsFinished = true;
             Destroy(gameObject);
             return;
         }

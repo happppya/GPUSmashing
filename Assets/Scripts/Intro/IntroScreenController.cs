@@ -14,7 +14,7 @@ public class IntroScreenController : MonoBehaviour
     {
         startButtonEasy.onClick.AddListener(() =>
         {
-            StartGame(70);
+            StartGame(90);
         });
         startButtonMedium.onClick.AddListener(() =>
         {
