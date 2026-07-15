@@ -4,42 +4,40 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody), typeof(AudioSource))]
 public class VoxelDestructionManager : MonoBehaviour
 {
     
     public List<GameObject> AnchorObjects; // Starting points of island algorithm. Will explode if one is destroyed
 
     public float RequiredDestructionForce = 3.8f;
-    public float DebrisLifetimeMin = 3f;
-    public float DebrisLifetimeMax = 5f;
-    public float ExplosionForce = 5f;
-    public float ExplosionRadius = 2f;
-    public float DebrisRandomVelocity = 2f;
-    public float ExplosionRandomVelocity = 7f;
-    
+    public VoxelDestructionConfig config;
+
     public event Action OnDamagedLight;
     public event Action OnDamagedCritical;
     public event Action OnExploded;
 
-    private NativeArray<VoxelData> _gridData;
-    private GameObject[] _voxelInstances;
-    private Dictionary<Collider, int> _colliderToIndex;
+    private AudioSource audioSource;
 
-    private int3 _gridDimensions;
-    private bool _jobScheduled = false;
-    private bool _needsIslandDetection = false;
-    private JobHandle _bfsJobHandle;
-    private NativeList<int> _detachedIndices;
+    private NativeArray<VoxelData> gridData;
+    private GameObject[] voxelInstances;
+    private Dictionary<Collider, int> colliderToIndex;
+
+    private int3 gridDimensions;
+    private bool jobScheduled = false;
+    private bool needsIslandDetection = false;
+    private JobHandle bfsJobHandle;
+    private NativeList<int> detachedIndices;
 
     // Health tracking
-    private int _totalInitialVoxels;
-    private int _currentActiveVoxels;
-    private bool _passedCritical = false;
-    private bool _passedLight = false;
-    private bool _passedExplode = false;
+    private int totalInitialVoxels;
+    private int currentActiveVoxels;
+    private bool passedCritical = false;
+    private bool passedLight = false;
+    private bool passedExplode = false;
 
     public struct VoxelData
     {
@@ -51,12 +49,13 @@ public class VoxelDestructionManager : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         InitializeGrid();
     }
 
     private float GetRandomDebrisLifetime()
     {
-        return UnityEngine.Random.Range(DebrisLifetimeMin, DebrisLifetimeMax);
+        return UnityEngine.Random.Range(config.DebrisLifetimeMin, config.DebrisLifetimeMax);
     }
     private void InitializeGrid()
     {
@@ -76,21 +75,21 @@ public class VoxelDestructionManager : MonoBehaviour
             maxBounds = Vector3.Max(maxBounds, pos);
         }
 
-        _gridDimensions = new int3(
+        gridDimensions = new int3(
             Mathf.RoundToInt((maxBounds.x - minBounds.x) / voxelSize.x) + 1,
             Mathf.RoundToInt((maxBounds.y - minBounds.y) / voxelSize.y) + 1,
             Mathf.RoundToInt((maxBounds.z - minBounds.z) / voxelSize.z) + 1
         );
 
-        int totalGridSize = _gridDimensions.x * _gridDimensions.y * _gridDimensions.z;
+        int totalGridSize = gridDimensions.x * gridDimensions.y * gridDimensions.z;
 
-        _gridData = new NativeArray<VoxelData>(totalGridSize, Allocator.Persistent);
-        _voxelInstances = new GameObject[totalGridSize];
-        _colliderToIndex = new Dictionary<Collider, int>(childCount);
-        _detachedIndices = new NativeList<int>(Allocator.Persistent);
+        gridData = new NativeArray<VoxelData>(totalGridSize, Allocator.Persistent);
+        voxelInstances = new GameObject[totalGridSize];
+        colliderToIndex = new Dictionary<Collider, int>(childCount);
+        detachedIndices = new NativeList<int>(Allocator.Persistent);
 
-        _totalInitialVoxels = childCount;
-        _currentActiveVoxels = childCount;
+        totalInitialVoxels = childCount;
+        currentActiveVoxels = childCount;
 
         for (int i = 0; i < childCount; i++)
         {
@@ -104,10 +103,10 @@ public class VoxelDestructionManager : MonoBehaviour
                 Mathf.RoundToInt(localPos.z / voxelSize.z)
             );
 
-            int index = gridPos.x + (gridPos.y * _gridDimensions.x) + (gridPos.z * _gridDimensions.x * _gridDimensions.y);
+            int index = gridPos.x + (gridPos.y * gridDimensions.x) + (gridPos.z * gridDimensions.x * gridDimensions.y);
             bool isAnchor = AnchorObjects.Contains(voxelTransform.gameObject);
 
-            _gridData[index] = new VoxelData
+            gridData[index] = new VoxelData
             {
                 Index = index,
                 GridPosition = gridPos,
@@ -115,25 +114,29 @@ public class VoxelDestructionManager : MonoBehaviour
                 IsAnchor = isAnchor
             };
 
-            _voxelInstances[index] = voxelTransform.gameObject;
-            _colliderToIndex[voxelCollider] = index;
+            voxelInstances[index] = voxelTransform.gameObject;
+            colliderToIndex[voxelCollider] = index;
         }
     }
 
-    // Integrated Collision Routing
     private void OnCollisionEnter(Collision collision)
     {
-        // Stop calculating if we are already dead
-        if (_passedExplode) return;
+        if (passedExplode) return;
 
         if (collision.impulse.sqrMagnitude > RequiredDestructionForce)
         {
             Collider hitCollider = collision.GetContact(0).thisCollider;
 
-            if (_colliderToIndex.TryGetValue(hitCollider, out int index))
+            if (colliderToIndex.TryGetValue(hitCollider, out int index))
             {
                 DestroyVoxel(index, collision.relativeVelocity);
             }
+
+            SoundUtility.PlayRandomSound(config.ImpactHeavy, audioSource, true);
+
+        } else if (collision.impulse.sqrMagnitude > 0.15)
+        {
+            SoundUtility.PlayRandomSound(config.ImpactLight, audioSource, true);
         }
     }
 
@@ -141,77 +144,77 @@ public class VoxelDestructionManager : MonoBehaviour
     {
         CompleteJobIfNeeded();
 
-        if (!_gridData[index].IsActive) return;
+        if (!gridData[index].IsActive) return;
 
         MarkVoxelInactive(index);
 
         // Convert the hit voxel to debris immediately
         MakeDebris(index, impactVelocity, false);
 
-        if (_gridData[index].IsAnchor)
+        if (gridData[index].IsAnchor)
         {
             ExplodeEverything();
             return;
         }
 
-        _needsIslandDetection = true;
+        needsIslandDetection = true;
         CheckHealthThresholds();
     }
 
     private void MarkVoxelInactive(int index)
     {
-        VoxelData data = _gridData[index];
+        VoxelData data = gridData[index];
         data.IsActive = false;
-        _gridData[index] = data;
-        _currentActiveVoxels--;
+        gridData[index] = data;
+        currentActiveVoxels--;
     }
 
     private void CompleteJobIfNeeded()
     {
-        if (_jobScheduled)
+        if (jobScheduled)
         {
-            _bfsJobHandle.Complete();
-            _jobScheduled = false;
+            bfsJobHandle.Complete();
+            jobScheduled = false;
             ProcessDetachedVoxels();
         }
     }
 
     private void ScheduleIslandDetection()
     {
-        if (_jobScheduled) return;
+        if (jobScheduled) return;
 
-        _detachedIndices.Clear();
+        detachedIndices.Clear();
 
         FindIslandsJob job = new FindIslandsJob
         {
-            Grid = _gridData,
-            GridSize = _gridDimensions,
-            DetachedIndices = _detachedIndices
+            Grid = gridData,
+            GridSize = gridDimensions,
+            DetachedIndices = detachedIndices
         };
 
-        _bfsJobHandle = job.Schedule();
-        _jobScheduled = true;
+        bfsJobHandle = job.Schedule();
+        jobScheduled = true;
     }
 
     private void LateUpdate()
     {
-        if (_jobScheduled && _bfsJobHandle.IsCompleted)
+        if (jobScheduled && bfsJobHandle.IsCompleted)
         {
             CompleteJobIfNeeded();
         }
 
-        if (_needsIslandDetection && !_jobScheduled)
+        if (needsIslandDetection && !jobScheduled)
         {
             ScheduleIslandDetection();
-            _needsIslandDetection = false;
+            needsIslandDetection = false;
         }
     }
 
     private void ProcessDetachedVoxels()
     {
-        for (int i = 0; i < _detachedIndices.Length; i++)
+        for (int i = 0; i < detachedIndices.Length; i++)
         {
-            int index = _detachedIndices[i];
+            int index = detachedIndices[i];
             MarkVoxelInactive(index);
 
             // Floating islands drop with gravity
@@ -224,7 +227,7 @@ public class VoxelDestructionManager : MonoBehaviour
 
     private void MakeDebris(int index, Vector3 force, bool isExplosion)
     {
-        GameObject detachedVoxel = _voxelInstances[index];
+        GameObject detachedVoxel = voxelInstances[index];
         if (detachedVoxel == null) return;
 
         Rigidbody rb = detachedVoxel.GetComponent<Rigidbody>();
@@ -238,13 +241,13 @@ public class VoxelDestructionManager : MonoBehaviour
 
         if (isExplosion)
         {
-            rb.AddExplosionForce(ExplosionForce, transform.position, ExplosionRadius, 0.5f, ForceMode.Impulse);
-            rb.linearVelocity += UnityEngine.Random.insideUnitSphere * ExplosionRandomVelocity;
+            rb.AddExplosionForce(config.ExplosionForce, transform.position, config.ExplosionRadius, 0.5f, ForceMode.Impulse);
+            rb.linearVelocity += UnityEngine.Random.insideUnitSphere * config.ExplosionRandomVelocity;
         }
         else
         {
             rb.AddForce(force, ForceMode.Impulse);
-            rb.linearVelocity += UnityEngine.Random.insideUnitSphere * DebrisRandomVelocity;
+            rb.linearVelocity += UnityEngine.Random.insideUnitSphere * config.DebrisRandomVelocity;
         }
 
         // Clean up the debris after a delay
@@ -253,25 +256,27 @@ public class VoxelDestructionManager : MonoBehaviour
 
     private void CheckHealthThresholds()
     {
-        if (_passedExplode) return;
+        if (passedExplode) return;
 
-        float healthPercentage = (float)_currentActiveVoxels / _totalInitialVoxels;
+        float healthPercentage = (float)currentActiveVoxels / totalInitialVoxels;
 
-        if (healthPercentage <= 0.8f && !_passedLight)
+        if (healthPercentage <= 0.8f && !passedLight)
         {
-            _passedLight = true;
+            passedLight = true;
             OnDamagedLight?.Invoke();
+            SoundUtility.PlayRandomSound(config.Zap, audioSource, true);
         }
 
-        if (healthPercentage <= 0.6f && !_passedCritical)
+        if (healthPercentage <= 0.6f && !passedCritical)
         {
-            _passedCritical = true;
+            passedCritical = true;
             OnDamagedCritical?.Invoke();
+            SoundUtility.PlayRandomSound(config.Zap, audioSource, true);
         }
 
-        if (healthPercentage <= 0.4f && !_passedExplode)
+        if (healthPercentage <= 0.4f && !passedExplode)
         {
-            _passedExplode = true;
+            passedExplode = true;
             ExplodeEverything();
         }
     }
@@ -281,9 +286,11 @@ public class VoxelDestructionManager : MonoBehaviour
         CompleteJobIfNeeded();
         OnExploded?.Invoke();
 
-        for (int i = 0; i < _gridData.Length; i++)
+        SoundUtility.PlayRandomSound(config.Explode, audioSource, true);
+
+        for (int i = 0; i < gridData.Length; i++)
         {
-            if (_gridData[i].IsActive)
+            if (gridData[i].IsActive)
             {
                 MarkVoxelInactive(i);
                 MakeDebris(i, Vector3.zero, true);
@@ -295,13 +302,13 @@ public class VoxelDestructionManager : MonoBehaviour
         mainRb.isKinematic = true;
         gameObject.layer = LayerMask.NameToLayer("FractureChunk");
         
-        Destroy(gameObject, DebrisLifetimeMax);
+        Destroy(gameObject, config.DebrisLifetimeMax);
     }
 
     private void OnDestroy()
     {
-        if (_jobScheduled) _bfsJobHandle.Complete();
-        if (_gridData.IsCreated) _gridData.Dispose();
-        if (_detachedIndices.IsCreated) _detachedIndices.Dispose();
+        if (jobScheduled) bfsJobHandle.Complete();
+        if (gridData.IsCreated) gridData.Dispose();
+        if (detachedIndices.IsCreated) detachedIndices.Dispose();
     }
 }

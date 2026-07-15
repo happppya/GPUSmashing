@@ -50,7 +50,7 @@ public class PlaylistManager : MonoBehaviour
     private void InitializeQueue()
     {
         shuffledQueue.Clear();
-        shuffledQueue.AddRange(playlist.clips);
+        shuffledQueue.AddRange(playlist.Clips);
         currentSongIndex = 0;
 
         for (int i = 0; i < shuffledQueue.Count; i++)
