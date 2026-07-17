@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Destruction/VoxelDestructionConfig")]
-public class VoxelDestructionConfig : ScriptableObject
+[CreateAssetMenu(menuName = "Destruction/DestructionConfig")]
+public class DestructionConfig : ScriptableObject
 {
     public SoundCollection ImpactLight;
     public SoundCollection ImpactHeavy;

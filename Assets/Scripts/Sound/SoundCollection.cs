@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewSoundCollection", menuName = "Audio/Sound Collection")]
 public class SoundCollection : ScriptableObject
 {
-    [SerializeField] public AudioClip[] Clips;
-    [NonSerialized] private float nextAllowedPlayTime = -1f;
+    public AudioClip[] Clips;
+    private float nextAllowedPlayTime = -1f;
 
     public AudioClip GetRandomClip()
     {

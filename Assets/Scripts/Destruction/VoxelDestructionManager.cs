@@ -15,7 +15,7 @@ public class VoxelDestructionManager : MonoBehaviour
     public List<GameObject> AnchorObjects; // Starting points of island algorithm. Will explode if one is destroyed
 
     public float RequiredDestructionForce = 3.8f;
-    public VoxelDestructionConfig config;
+    [SerializeField] private DestructionConfig config;
 
     public event Action OnDamagedLight;
     public event Action OnDamagedCritical;

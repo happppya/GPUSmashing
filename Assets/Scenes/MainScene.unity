@@ -1469,7 +1469,7 @@ MonoBehaviour:
   - UpgradeType: 6
     BaseValue: 5
   - UpgradeType: 7
-    BaseValue: 0.01
+    BaseValue: 0
   - UpgradeType: 8
     BaseValue: 30
   - UpgradeType: 4

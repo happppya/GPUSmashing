@@ -4195,7 +4195,7 @@ MonoBehaviour:
   AnchorObjects:
   - {fileID: 5076787036555514464}
   RequiredDestructionForce: 0.5
-  config: {fileID: 11400000, guid: 88c73cff5a4c9f0429172daf10ffc5e3, type: 2}
+  config: {fileID: 11400000, guid: 3ceb11c2d7a52c44f96daf55fc8334bc, type: 2}
 --- !u!114 &1838339605760847413
 MonoBehaviour:
   m_ObjectHideFlags: 0

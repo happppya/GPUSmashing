@@ -67,9 +67,9 @@ public class UpgradeItemBuilder : ShopItemBuilder
 
             string statFormatted = modifier.FormatType switch
             {
-                StatFormatType.None => statValue.ToString(),
-                StatFormatType.Percentage => statValue.ToString("P"),
-                StatFormatType.Currency => statValue.ToString("C0"),
+                StatFormatType.None => Mathf.Abs(statValue).ToString(),
+                StatFormatType.Percentage => Mathf.Abs(statValue).ToString("P"),
+                StatFormatType.Currency => Mathf.Abs(statValue).ToString("C0"),
                 _ => throw new System.ArgumentException($"Invalid format type {modifier.FormatType}"),
             };
             
